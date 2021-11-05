@@ -1,0 +1,16 @@
+name = "mongo-realm-worker"
+type = "javascript"
+
+account_id = "CLOUDFLARE_ACCOUNT_ID"
+workers_dev = true # or zone_id = "<ZONE ID>" if you have one
+
+[build]
+command = "npm run build"
+
+[build.upload]
+dir = "build"
+main = "./index.mjs"
+format = "modules"
+
+[vars]
+REALM_APPID = "MONGODB_REALM_APPID"

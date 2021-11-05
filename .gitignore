@@ -1,3 +1,9 @@
+# IDEA
+.idea/
+
+# Build wrangler
+build/
+
 # Logs
 logs
 *.log
