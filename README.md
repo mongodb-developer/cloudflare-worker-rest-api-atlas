@@ -14,7 +14,7 @@ This project explains how to build a REST API in a Cloudflare worker using Mongo
 - MongoDB Atlas Cluster (M0 is fine).
 - MongoDB Realm Application created & deployed.
   - with Authentication API Keys turned on + an API key created.
-  - with a rule on the collection `cloudflare.todos` with a role "owner" with read and write access on all the fields, applied when `{"user": "%%user.id"}`.
+  - with a rule on the collection `cloudflare.todos` with a role "owner" with read and write access on all the fields, applied when `{"owner": "%%user.id"}`.
 - Cloudflare account (free plan is fine) with a `*.workers.dev` subdomain.
 
 To deploy & test the API we need:
