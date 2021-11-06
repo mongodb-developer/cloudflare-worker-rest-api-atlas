@@ -99,8 +99,8 @@ cd cloudflare-worker-rest-api-realm-atlas
 Now that we have the worker template, we just need to change the configuration to deploy it on your Cloudflare account.
 
 Edit the file `wrangler.toml`:
-- replace `CLOUDFLARE_ACCOUNT_ID` by your real Cloudflare account ID.
-- replace `MONGODB_REALM_APPID` by your real MongoDB Realm App ID.
+- replace `CLOUDFLARE_ACCOUNT_ID` with your real Cloudflare account ID.
+- replace `MONGODB_REALM_APPID` with your real MongoDB Realm App ID.
 
 You can now deploy your worker to your Cloudflare account using [Wrangler](https://developers.cloudflare.com/workers/cli-wrangler/install-update):
 
@@ -124,8 +124,8 @@ import * as utils from './utils';
 
 // The Worker's environment bindings. See `wrangler.toml` file.
 interface Bindings {
-	// MongoDB Realm Application ID
-	REALM_APPID: string;
+    // MongoDB Realm Application ID
+    REALM_APPID: string;
 }
 
 // Define type alias; available via `realm-web`
@@ -133,9 +133,9 @@ type Document = globalThis.Realm.Services.MongoDB.Document;
 
 // Declare the interface for a "todos" document
 interface Todo extends Document {
-	owner: string;
-	done: boolean;
-	todo: string;
+    owner: string;
+    done: boolean;
+    todo: string;
 }
 
 let App: Realm.App;
@@ -143,91 +143,91 @@ const ObjectId = Realm.BSON.ObjectID;
 
 // Define the Worker logic
 const worker: ExportedHandler<Bindings> = {
-	async fetch(req, env) {
-		const url = new URL(req.url);
-		App = App || new Realm.App(env.REALM_APPID);
+    async fetch(req, env) {
+        const url = new URL(req.url);
+        App = App || new Realm.App(env.REALM_APPID);
 
-		const method = req.method;
-		const path = url.pathname.replace(/[/]$/, '');
-		const todoID = url.searchParams.get('id') || '';
+        const method = req.method;
+        const path = url.pathname.replace(/[/]$/, '');
+        const todoID = url.searchParams.get('id') || '';
 
-		if (path !== '/api/todos') {
-			return utils.toError(`Unknown "${path}" URL; try "/api/todos" instead.`, 404);
-		}
+        if (path !== '/api/todos') {
+            return utils.toError(`Unknown "${path}" URL; try "/api/todos" instead.`, 404);
+        }
 
-		const token = req.headers.get('authorization');
-		if (!token) return utils.toError('Missing "authorization" header; try to add the header "authorization: REALM_API_KEY".', 401);
+        const token = req.headers.get('authorization');
+        if (!token) return utils.toError('Missing "authorization" header; try to add the header "authorization: REALM_API_KEY".', 401);
 
-		try {
-			const credentials = Realm.Credentials.apiKey(token);
-			// Attempt to authenticate
-			var user = await App.logIn(credentials);
-			var client = user.mongoClient('mongodb-atlas');
-		} catch (err) {
-			return utils.toError('Error with authentication.', 500);
-		}
+        try {
+            const credentials = Realm.Credentials.apiKey(token);
+            // Attempt to authenticate
+            var user = await App.logIn(credentials);
+            var client = user.mongoClient('mongodb-atlas');
+        } catch (err) {
+            return utils.toError('Error with authentication.', 500);
+        }
 
-		// Grab a reference to the "cloudflare.todos" collection
-		const collection = client.db('cloudflare').collection<Todo>('todos');
+        // Grab a reference to the "cloudflare.todos" collection
+        const collection = client.db('cloudflare').collection<Todo>('todos');
 
-		try {
-			if (method === 'GET') {
-				if (todoID) {
-					// GET /api/todos?id=XXX
-					return utils.reply(
-						await collection.findOne({
-							_id: new ObjectId(todoID)
-						})
-					);
-				}
+        try {
+            if (method === 'GET') {
+                if (todoID) {
+                    // GET /api/todos?id=XXX
+                    return utils.reply(
+                        await collection.findOne({
+                            _id: new ObjectId(todoID)
+                        })
+                    );
+                }
 
-				// GET /api/todos
-				return utils.reply(
-					await collection.find()
-				);
-			}
+                // GET /api/todos
+                return utils.reply(
+                    await collection.find()
+                );
+            }
 
-			// POST /api/todos
-			if (method === 'POST') {
-				const { todo } = await req.json();
-				return utils.reply(
-					await collection.insertOne({
-						owner: user.id,
-						done: false,
-						todo: todo,
-					})
-				);
-			}
+            // POST /api/todos
+            if (method === 'POST') {
+                const {todo} = await req.json();
+                return utils.reply(
+                    await collection.insertOne({
+                        owner: user.id,
+                        done: false,
+                        todo: todo,
+                    })
+                );
+            }
 
-			// PATCH /api/todos?id=XXX&done=true
-			if (method === 'PATCH') {
-				return utils.reply(
-					await collection.updateOne({
-						_id: new ObjectId(todoID)
-					}, {
-						$set: {
-							done: url.searchParams.get('done') === 'true'
-						}
-					})
-				);
-			}
+            // PATCH /api/todos?id=XXX&done=true
+            if (method === 'PATCH') {
+                return utils.reply(
+                    await collection.updateOne({
+                        _id: new ObjectId(todoID)
+                    }, {
+                        $set: {
+                            done: url.searchParams.get('done') === 'true'
+                        }
+                    })
+                );
+            }
 
-			// DELETE /api/todos?id=XXX
-			if (method === 'DELETE') {
-				return utils.reply(
-					await collection.deleteOne({
-						_id: new ObjectId(todoID)
-					})
-				);
-			}
+            // DELETE /api/todos?id=XXX
+            if (method === 'DELETE') {
+                return utils.reply(
+                    await collection.deleteOne({
+                        _id: new ObjectId(todoID)
+                    })
+                );
+            }
 
-			// unknown method
-			return utils.toError('Method not allowed.', 405);
-		} catch (err) {
-			const msg = (err as Error).message || 'Error with query.';
-			return utils.toError(msg, 500);
-		}
-	}
+            // unknown method
+            return utils.toError('Method not allowed.', 405);
+        } catch (err) {
+            const msg = (err as Error).message || 'Error with query.';
+            return utils.toError(msg, 500);
+        }
+    }
 }
 
 // Export for discoverability
@@ -330,10 +330,8 @@ As you can see, the REST API works like a charm!
 
 ## Wrap Up
 
-The default [KV](https://developers.cloudflare.com/workers/runtime-apis/kv) system that Cloudflare proposes to use with workers is limited for many reasons and MongoDB offers a way more powerful alternative to store your data.
+Cloudflare offers a Workers [KV](https://developers.cloudflare.com/workers/runtime-apis/kv) product that _can_ make for a quick combination with Workers, but it's still a simple key-value datastore and most applications will outgrow it. By contrast, MongoDB is a powerful, full-featured database that unlocks the ability to store, query, and index your data without compromising the security or scalability of your application.
 
-This blog post is a living proof that it is possible to take advantages of both technologies and build a powerful and secure Serverless REST API that can scale very well as long as you scale the MongoDB Atlas cluster accordingly.
+As demonstrated in this blog post, it is possible to take full advantage of both technologies. As a result, we built a powerful and secure serverless REST API that will scale very well.
 
-If you have questions, please head to our [developer community website](https://www.mongodb.com/community/forums/) where the MongoDB engineers and the MongoDB community will help you build your next big idea with MongoDB.
-
-If your question is more related to Cloudflare, I encourage you to check out their [community forum](https://community.cloudflare.com/).
+If you have questions, please head to our [developer community website](https://www.mongodb.com/community/forums/) where the MongoDB engineers and the MongoDB community will help you build your next big idea with MongoDB. If your question is related to Cloudflare, I encourage you to join their [active Discord community](https://workers.community).
