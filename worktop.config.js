@@ -1,4 +1,4 @@
-const { define } = require('worktop.build');
+const {define} = require('worktop.build');
 
 // NOTE: Code inject into the TOP of the output file
 const INJECT = `
@@ -13,9 +13,9 @@ const INJECT = `
 `;
 
 module.exports = define({
-	overrides: {
-		banner: {
-			js: INJECT
-		}
-	}
+    overrides: {
+        banner: {
+            js: INJECT
+        }
+    }
 })
