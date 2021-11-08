@@ -2,21 +2,21 @@
 
 ## Introduction
 
-[Cloudflare Workers](https://workers.cloudflare.com/) provides a serverless execution environment that allows you to create entirely new applications or augment existing ones without configuring or maintaining infrastructure.
+[Cloudflare Workers](https://workers.cloudflare.com/) provides a serverless execution environment that allows you to create entirely new applications or augment existing ones without configuring or maintaining infrastructure that can scale instantly across the entire globe.
 
-[MongoDB Atlas](https://www.mongodb.com/cloud/atlas) allows you to create, manage and monitor MongoDB clusters in the cloud provider of your choice (AWS, GCP or Azure) while [MongoDB Realm](https://www.mongodb.com/realm) Application can provide a layer of authentication and define access rules to the collections.
+[MongoDB Atlas](https://www.mongodb.com/cloud/atlas) allows you to create, manage and monitor MongoDB clusters in the cloud provider of your choice (AWS, GCP or Azure) while [MongoDB Realm](https://www.mongodb.com/realm) provides a layer of authentication and define access rules to the collections.
 
-In this blog post, we will combine all these technologies together and create a REST API with a Cloudflare worker using the [MongoDB Realm Web SDK](https://docs.mongodb.com/realm/web/) and a MongoDB Atlas cluster to store the data.
+In this blog post, we will combine all these technologies together and create a REST API with a Cloudflare worker using the [MongoDB Realm Web SDK](https://docs.mongodb.com/realm/web/) and a MongoDB Atlas cluster to store and query data.
 
 ## TL;DR!
 
-The worker is in this [GitHub repository](https://github.com/mongodb-developer/cloudflare-worker-rest-api-realm-atlas). The [README](https://github.com/mongodb-developer/cloudflare-worker-rest-api-realm-atlas/blob/main/README.md) will get you up and running in no time if you know what you are doing. Else I suggest you follow this step-by-step blog post ;-).
+The Worker is in this [GitHub repository](https://github.com/mongodb-developer/cloudflare-worker-rest-api-realm-atlas). The [README](https://github.com/mongodb-developer/cloudflare-worker-rest-api-realm-atlas/blob/main/README.md) will get you up and running in no time if you know what you are doing. Else I suggest you follow this step-by-step blog post ;-).
 
 ```shell
 $ git clone git@github.com:mongodb-developer/cloudflare-worker-rest-api-realm-atlas.git
 ```
 
-## Prerequisistes
+## Prerequisites
 
 - NO credit card! You can run this entire tutorial for free!
 - [Git](https://git-scm.com/) and [cURL](https://en.wikipedia.org/wiki/CURL).
@@ -35,7 +35,7 @@ To test (or interact with) the REST API we need:
 - The Realm authentication API key (more about that below, but it's in Authentication tab > API Keys).
 - The Cloudflare `*.workers.dev` subdomain (in Workers tab > Overview).
 
-It was created during this step during your set up:
+The subdomain was created during this step during your set up:
 
 ![](https://mongodb-devhub-cms.s3.us-west-1.amazonaws.com/create_subdomain_445263d59f.png)
 
@@ -69,7 +69,7 @@ Now you can create an API key and **save it somewhere**! It will only be display
 
 ![](https://mongodb-devhub-cms.s3.us-west-1.amazonaws.com/realm_api_key_81bb588716.png)
 
-We only have a single user in our application as we only created a single API key. Note that this tutorial would work with any other authentication method if you update the authentication code accordingly in the worker.
+We only have a single user in our application as we only created a single API key. Note that this tutorial would work with any other authentication method if you update the authentication code accordingly in the Worker.
 
 ### Collection Rules
 
@@ -110,7 +110,7 @@ $ wrangler login
 $ wrangler publish
 ```
 
-Head to your Cloudflare account. You should now see your new worker in the Workers tab > Overview.
+Head to your Cloudflare account. You should now see your new Worker in the Workers tab > Overview.
 
 ![](https://mongodb-devhub-cms.s3.us-west-1.amazonaws.com/cloudflare_worker_deployed_e2f606f4c5.png)
 
@@ -248,7 +248,7 @@ You can use [Postman](https://www.postman.com/) or anything you want to test you
 
 In order to make them work, we need to edit the file `api_tests/variables.sh` and provide them with:
 
-- the Cloudflare worker URL: replace `YOUR_SUBDOMAIN` so the final worker URL matches yours.
+- the Cloudflare Worker URL: replace `YOUR_SUBDOMAIN` so the final Worker URL matches yours.
 - the MongoDB Realm App API key: replace `YOUR_REALM_AUTH_API_KEY` with your Realm auth API key.
 
 Finally, we can execute all the scripts like this for example:
