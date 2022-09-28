@@ -5,21 +5,21 @@ This project explains how to build a REST API in a Cloudflare worker using Mongo
 # How it Works
 
 - The MongoDB Atlas cluster stores the data in the `cloudflare.todos` collection.
-- A MongoDB Realm App manages the authentication and the collection access rules.
+- A MongoDB Atlas App Services App manages the authentication and the collection access rules.
 - A Cloudflare worker uses the Realm Web SDK to authenticate and retrieve the data that is then exposed with a REST API.
 
 # Prerequisites
 
 - MongoDB Cloud account.
 - MongoDB Atlas Cluster (M0 is fine).
-- MongoDB Realm Application created & deployed.
+- MongoDB Atlas App Services Application created & deployed.
   - with Authentication API Keys turned on + an API key created.
   - with a rule on the collection `cloudflare.todos` with a role "owner" with read and write access on all the fields, applied when `{"owner": "%%user.id"}`.
 - Cloudflare account (free plan is fine) with a `*.workers.dev` subdomain.
 
 To deploy & test the API we need:
-- The Realm Application ID (top left corner).
-- The Realm authentication API key (in Authentication tab > API Keys).
+- The Atlas App Services Application ID (top left corner).
+- The App authentication API key (in Authentication tab > API Keys).
 - The Cloudflare account login/password.
 - The Cloudflare account ID (in Workers tab > Overview).
 - The Cloudflare `*.workers.dev` subdomain (in Workers tab > Overview).
@@ -34,11 +34,11 @@ cd cloudflare-worker-rest-api-realm-atlas
 
 Edit the file `wrangler.toml`
 - replace `CLOUDFLARE_ACCOUNT_ID` by your real Cloudflare account ID.
-- replace `MONGODB_REALM_APPID` by your real MongoDB Realm App ID.
+- replace `MONGODB_REALM_APPID` by your real MongoDB Atlas App Services App ID.
 
 If you want to use the bash files to test the REST API, edit the file `api_tests/variables.sh`:
 - replace `YOUR_SUBDOMAIN` so the final worker URL matches yours.
-- replace `YOUR_REALM_AUTH_API_KEY` with your Realm auth API key.
+- replace `YOUR_REALM_AUTH_API_KEY` with your App auth API key.
 
 Run the following commands:
 
