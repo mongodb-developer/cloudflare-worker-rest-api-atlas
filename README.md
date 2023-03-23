@@ -28,8 +28,8 @@ To deploy & test the API we need:
 
 Clone this repository
 ```shell
-git clone git@github.com:mongodb-developer/cloudflare-worker-rest-api-realm-atlas.git
-cd cloudflare-worker-rest-api-realm-atlas
+git clone git@github.com:mongodb-developer/cloudflare-worker-rest-api-atlas.git
+cd cloudflare-worker-rest-api-atlas
 ```
 
 Edit the file `wrangler.toml`
