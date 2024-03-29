@@ -45,7 +45,7 @@ Run the following commands:
 ```shell
 $ npm i wrangler -g
 $ wrangler login
-$ wrangler publish
+$ wrangler deploy
 $ cd api_tests
 $ ./post.sh "Write a good README.md for Github"
 $ ./post.sh "Commit and push"
@@ -61,5 +61,5 @@ You can also navigate to your MongoDB Atlas Cluster and browse your collection `
 
 # Authors
 
-- Luke Edwards <ledwards@cloudflare.com>
-- Maxime Beugnet <maxime@mongodb.com>
+- [Luke Edwards](https://x.com/lukeed05)
+- [Maxime Beugnet](https://x.com/mbeugnet) <maxime@mongodb.com>

@@ -1,14 +1,10 @@
 name = "mongo-realm-worker"
-# type = "javascript"
+main = "src/index.ts"
 compatibility_date = "2024-03-29"
+compatibility_flags = ["nodejs_compat"]
 
 account_id = "CLOUDFLARE_ACCOUNT_ID"
 workers_dev = true # or zone_id = "<ZONE ID>" if you have one
-
-main = "build/index.mjs"
-
-[build]
-command = "npm run build"
 
 [vars]
 REALM_APPID = "MONGODB_REALM_APPID"

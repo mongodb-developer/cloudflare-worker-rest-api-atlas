@@ -1,21 +1,21 @@
 {
   "compilerOptions": {
     "strict": true,
-    "target": "es2020",
+    "target": "esnext",
     "alwaysStrict": true,
     "esModuleInterop": false,
     "moduleResolution": "node",
-    "lib": ["es2020", "webworker"],
+    "lib": ["esnext", "webworker"],
     "types": ["@cloudflare/workers-types"],
     "forceConsistentCasingInFileNames": true,
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
     "strictFunctionTypes": true,
     "resolveJsonModule": true,
     "strictNullChecks": true,
     "isolatedModules": false,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "module": "es2020"
+    "module": "esnext"
   },
   "include": [
     "@types",
