@@ -1,6 +1,6 @@
 name = "mongo-realm-worker"
 # type = "javascript"
-compatibility_date = "2023-02-22"
+compatibility_date = "2024-03-29"
 
 account_id = "CLOUDFLARE_ACCOUNT_ID"
 workers_dev = true # or zone_id = "<ZONE ID>" if you have one
@@ -12,3 +12,4 @@ command = "npm run build"
 
 [vars]
 REALM_APPID = "MONGODB_REALM_APPID"
+

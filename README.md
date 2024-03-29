@@ -43,7 +43,7 @@ If you want to use the bash files to test the REST API, edit the file `api_tests
 Run the following commands:
 
 ```shell
-$ npm i @cloudflare/wrangler -g
+$ npm i wrangler -g
 $ wrangler login
 $ wrangler publish
 $ cd api_tests
