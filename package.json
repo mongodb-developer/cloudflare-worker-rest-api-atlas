@@ -2,6 +2,7 @@
   "private": true,
   "name": "test-realm",
   "scripts": {
+    "types": "tsc --noEmit --skipLibCheck",
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
     "start": "wrangler dev",

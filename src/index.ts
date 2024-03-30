@@ -3,8 +3,8 @@ import * as utils from './utils';
 
 // The Worker's environment bindings. See `wrangler.toml` file.
 interface Bindings {
-    // MongoDB Realm Application ID
-    REALM_APPID: string;
+    // MongoDB Atlas Application ID
+    ATLAS_APPID: string;
 }
 
 // Define type alias; available via `realm-web`
@@ -12,7 +12,7 @@ type Document = globalThis.Realm.Services.MongoDB.Document;
 
 // Declare the interface for a "todos" document
 interface Todo extends Document {
-    owner: string;
+    owner_id: string;
     done: boolean;
     todo: string;
 }
@@ -24,18 +24,18 @@ const ObjectId = Realm.BSON.ObjectID;
 const worker: ExportedHandler<Bindings> = {
     async fetch(req, env) {
         const url = new URL(req.url);
-        App = App || new Realm.App(env.REALM_APPID);
+        App = App || new Realm.App(env.ATLAS_APPID);
 
         const method = req.method;
         const path = url.pathname.replace(/[/]$/, '');
         const todoID = url.searchParams.get('id') || '';
 
         if (path !== '/api/todos') {
-            return utils.toError(`Unknown "${path}" URL; try "/api/todos" instead.`, 404);
+            return utils.toError(`Unknown '${path}' URL; try '/api/todos' instead.`, 404);
         }
 
         const token = req.headers.get('authorization');
-        if (!token) return utils.toError('Missing "authorization" header; try to add the header "authorization: REALM_API_KEY".', 401);
+        if (!token) return utils.toError(`Missing 'authorization' header; try to add the header 'authorization: ATLAS_APP_API_KEY'.`, 401);
 
         try {
             const credentials = Realm.Credentials.apiKey(token);
@@ -71,7 +71,7 @@ const worker: ExportedHandler<Bindings> = {
                 const {todo} = await req.json();
                 return utils.reply(
                     await collection.insertOne({
-                        owner: user.id,
+                        owner_id: user.id,
                         done: false,
                         todo: todo,
                     })

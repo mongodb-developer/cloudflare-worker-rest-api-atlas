@@ -7,5 +7,5 @@ account_id = "CLOUDFLARE_ACCOUNT_ID"
 workers_dev = true # or zone_id = "<ZONE ID>" if you have one
 
 [vars]
-REALM_APPID = "MONGODB_REALM_APPID"
+ATLAS_APPID = "MONGODB_ATLAS_APPID"
 
